@@ -1,8 +1,8 @@
 // MDB Pricing Portal — Service Worker
 const CACHE_NAME = 'mdb-pricing-v1';
 const SHELL_ASSETS = [
-  '/',
-  '/index.html',
+  '/mdb-pricing/',
+  '/mdb-pricing/index.html',
   'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@300;400;500;600&display=swap'
 ];
 

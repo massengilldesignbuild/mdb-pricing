@@ -2,7 +2,7 @@
   "name": "MDB Pricing",
   "short_name": "MDB Pricing",
   "description": "Massengill Design-Build master price sheet for catalog and plan-specific pricing.",
-  "start_url": "/",
+  "start_url": "/mdb-pricing/",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#f5f3ee",
@@ -35,5 +35,6 @@
       "sizes": "120x120",
       "type": "image/png"
     }
-  ]
+  ],
+  "scope": "/mdb-pricing/"
 }

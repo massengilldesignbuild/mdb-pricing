@@ -492,7 +492,7 @@ async function loadData() {
     if (!catRes.ok || !planRes.ok) throw new Error('Fetch returned ' + catRes.status);
     const [catText, planText] = await Promise.all([catRes.text(), planRes.text()]);
     CAT  = parseCSV(catText);
-    PLAN = parseCSV(planText, 1);
+    PLAN = parseCSV(planText, 3);
     console.log('CAT rows:', CAT.length, '| First row keys:', CAT.length ? Object.keys(CAT[0]) : 'none');
     console.log('PLAN rows:', PLAN.length, '| First row keys:', PLAN.length ? Object.keys(PLAN[0]) : 'none');
     if (PLAN.length) console.log('PLAN first row:', JSON.stringify(PLAN[0]));
@@ -839,7 +839,7 @@ function emptyRow(cols){
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
+    navigator.serviceWorker.register('./service-worker.js')
       .then(reg => console.log('MDB SW registered:', reg.scope))
       .catch(err => console.warn('MDB SW registration failed:', err));
   });
