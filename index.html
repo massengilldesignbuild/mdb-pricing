@@ -439,7 +439,7 @@ const PLAN_NOTES = {
   "Willow":     "1st Floor Primary · 5 Bed | 3.5 Bath | 3307 sqft"
 };
 function parseCSV(text, skipRows=0) {
-  const lines = text.trim().split('\n');
+  const lines = text.trim().replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
   const headers = lines[skipRows].split(',').map(h => h.replace(/^"|"$/g, '').trim());
   return lines.slice(skipRows+1).map(line => {
     const fields = [];
