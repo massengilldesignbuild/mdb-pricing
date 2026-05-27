@@ -493,6 +493,9 @@ async function loadData() {
     const [catText, planText] = await Promise.all([catRes.text(), planRes.text()]);
     CAT  = parseCSV(catText);
     PLAN = parseCSV(planText, 1);
+    console.log('CAT rows:', CAT.length, '| First row keys:', CAT.length ? Object.keys(CAT[0]) : 'none');
+    console.log('PLAN rows:', PLAN.length, '| First row keys:', PLAN.length ? Object.keys(PLAN[0]) : 'none');
+    if (PLAN.length) console.log('PLAN first row:', JSON.stringify(PLAN[0]));
 
     // Save to cache with timestamp
     try {
