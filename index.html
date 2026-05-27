@@ -223,8 +223,12 @@ mark{background:#fde68a;padding:0 1px;border-radius:2px;color:inherit}
   .xpanel{grid-template-columns:1fr}
   .hm{display:none!important}
   td,thead th{padding:9px 10px}
-  .ci{max-width:200px}
-  .cprice{font-size:24px}
+  .ci{max-width:130px}
+  .cprice{font-size:16px;letter-spacing:0}
+  .cprice-unit{font-size:13px}
+  .cprice .dollar{display:none}
+  .td-price-col{padding-left:6px;padding-right:6px}
+  thead th.th-price{padding-left:6px;padding-right:6px;white-space:normal;line-height:1.3}
 }
 @media(max-width:460px){
   .hxs{display:none!important}
@@ -237,13 +241,6 @@ mark{background:#fde68a;padding:0 1px;border-radius:2px;color:inherit}
 .update-btn:hover{background:var(--mdb-red-dk)}
 @keyframes pulse-btn{0%,100%{box-shadow:0 0 0 0 rgba(212,35,43,.45)}50%{box-shadow:0 0 0 7px rgba(212,35,43,0)}}
 
-/* Community selector */
-.community-bar{background:var(--dark);padding:8px 2.5rem;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.1)}
-.community-bar label{font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45);white-space:nowrap}
-.community-select{padding:6px 28px 6px 12px;border:1.5px solid rgba(255,255,255,.2);border-radius:var(--rs);background:rgba(255,255,255,.08);font-family:'Jost',sans-serif;font-size:13px;color:#fff;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.5)' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;cursor:pointer;min-width:180px}
-.community-select:focus{outline:none;border-color:rgba(255,255,255,.45)}
-.community-select option{background:var(--dark);color:#fff}
-.community-tag{font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-left:4px}
 </style>
 </head>
 <body>
@@ -269,15 +266,6 @@ mark{background:#fde68a;padding:0 1px;border-radius:2px;color:inherit}
   <div id="load-error" style="display:none;color:#c0392b;font-size:12px;font-family:'Jost',sans-serif;max-width:320px;text-align:center;line-height:1.6;padding:0 1rem"></div>
 </div>
 
-<div class="community-bar">
-  <label>Community</label>
-  <select class="community-select" id="fcommunity" onchange="onCommunityChange()">
-    <option value="">— Select Community —</option>
-    <option value="Holland Bluffs">Holland Bluffs</option>
-    <option value="Hilltop Bluffs">Hilltop Bluffs</option>
-  </select>
-  <span class="community-tag" id="community-spec-tag"></span>
-</div>
 <div id="data-notice" style="display:none;background:#fff8e1;border-bottom:1px solid #ffe082;padding:7px 2rem;font-family:'Jost',sans-serif;font-size:11.5px;color:#7a5c20;letter-spacing:.02em;text-align:center"></div>
 <main class="main">
 
@@ -310,6 +298,18 @@ mark{background:#fde68a;padding:0 1px;border-radius:2px;color:inherit}
       </div>
 
       <div id="hero-filters-plan" style="display:none;margin-top:1rem;padding-top:1rem;border-top:1px solid #eaeaea">
+      <div style="margin-bottom:.875rem">
+        <div class="filter-bar">
+          <div class="fg"><label>Community</label>
+            <select id="fcommunity" onchange="onCommunityChange()">
+              <option value="">— Select Community —</option>
+              <option value="Holland Bluffs">Holland Bluffs</option>
+              <option value="Hilltop Bluffs">Hilltop Bluffs</option>
+            </select>
+          </div>
+          <span class="community-tag" id="community-spec-tag" style="font-size:10px;color:var(--muted);align-self:flex-end;padding-bottom:10px;letter-spacing:.06em"></span>
+        </div>
+      </div>
         <div class="filter-bar">
           <div class="fg"><label>Plan</label>
             <select id="fplan" onchange="renderPlan()"><option value="">All Plans</option></select>
@@ -376,8 +376,8 @@ mark{background:#fde68a;padding:0 1px;border-radius:2px;color:inherit}
           <th onclick="psort('Item')">Item <span class="sa" id="psa-I">↕</span></th>
           <th class="hm" onclick="psort('Plan Name')">Plan <span class="sa" id="psa-N">↕</span></th>
           <th class="hxs">Type</th>
-          <th class="th-price" onclick="psort('Price on Crawl')"><span id="plan-price-hdr">Crawl Price</span> <span class="sa" id="psa-C">↕</span></th>
-          <th class="th-price" onclick="psort('Basement Adder')">Bsmt Adder <span class="sa" id="psa-B">↕</span></th>
+          <th class="th-price" onclick="psort('Price on Crawl')"><span id="plan-price-hdr">Crawl<br>Price</span> <span class="sa" id="psa-C">↕</span></th>
+          <th class="th-price" onclick="psort('Basement Adder')">Bsmt<br>Adder <span class="sa" id="psa-B">↕</span></th>
         </tr></thead>
         <tbody id="pbody"></tbody>
       </table>
@@ -400,8 +400,8 @@ let cF=[], pF=[];
 // INIT
 // Community → Spec Level mapping
 const COMMUNITY_SPEC = {
-  'Holland Bluffs': { level: 3, col: 'Price - Spec Level 3', label: 'Spec Level 3' },
-  'Hilltop Bluffs': { level: 2, col: 'Price - Spec Level 2', label: 'Spec Level 2' },
+  'Holland Bluffs': { level: 3, col: 'Price - Spec Level 3', label: 'Spec Level 3', short: 'Holland' },
+  'Hilltop Bluffs': { level: 2, col: 'Price - Spec Level 2', label: 'Spec Level 2', short: 'Hilltop' },
 };
 
 function getPriceCol() {
@@ -416,10 +416,10 @@ function onCommunityChange() {
   const hdr = document.getElementById('plan-price-hdr');
   if (community && COMMUNITY_SPEC[community]) {
     tag.textContent = COMMUNITY_SPEC[community].label;
-    if (hdr) hdr.textContent = community + ' Price';
+    if (hdr) hdr.innerHTML = (COMMUNITY_SPEC[community].short || community) + '<br>Price';
   } else {
     tag.textContent = '';
-    if (hdr) hdr.textContent = 'Crawl Price';
+    if (hdr) hdr.innerHTML = 'Crawl<br>Price';
   }
   renderPlan();
 }
@@ -633,7 +633,7 @@ function fmtPrice(s, itemName, unit) {
     const n = parseFloat(m);
     return n === 0 ? '' : m.replace(/0+$/, '').replace(/\.$/, '');
   });
-  return `<span class="cprice">${esc(clean)}${unitStr}</span>`;
+  return `<span class="cprice"><span class="dollar">$</span>${esc(clean.replace(/^\$/, ''))}${unitStr}</span>`;
 }
 function fmtPricePlan(s, itemName) {
   // Same as fmtPrice but shows TBD instead of Request Price pill
@@ -644,7 +644,7 @@ function fmtPricePlan(s, itemName) {
     const n = parseFloat(m);
     return n === 0 ? '' : m.replace(/0+$/, '').replace(/\.$/, '');
   });
-  return `<span class="cprice">${esc(clean)}</span>`;
+  return `<span class="cprice"><span class="dollar">$</span>${esc(clean.replace(/^\$/, ''))}</span>`;
 }
 function fmtBsmt(s) {
   if(!s||s==='') return '<span class="cprice-unit" style="color:var(--muted)">TBD</span>';
@@ -654,7 +654,7 @@ function fmtBsmt(s) {
     const n = parseFloat(m);
     return n === 0 ? '' : m.replace(/0+$/, '').replace(/\.$/, '');
   });
-  return `<span class="cprice">${esc(clean)}</span>`;
+  return `<span class="cprice"><span class="dollar">$</span>${esc(clean.replace(/^\$/, ''))}</span>`;
 }
 function bdg(t){
   if(!t)return '';
